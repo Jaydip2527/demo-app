@@ -1,0 +1,35 @@
+# Environment variables
+frontend/.env
+server/.env
+
+# Node modules
+frontend/node_modules/
+server/node_modules/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build files
+frontend/build/
+server/build/
+frontend/dist/
+server/dist/
+
+# Coverage directory used by testing tools
+coverage/
+
+# MacOS files
+.DS_Store
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Other
+*.lock
