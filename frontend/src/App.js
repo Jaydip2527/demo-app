@@ -1,17 +1,20 @@
 import { Fragment } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux"; // Import Provider from react-redux
-import { NOTFOUND, LIST, SIGNIN, SIGNUP, FORM } from "./routes";
+import { NOTFOUND, LIST, SIGNIN, SIGNUP, FORM, PROFILE } from "./routes";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import NotFound from "./components/notfound";
 import List from "./components/List";
 import Form from "./components/Form";
+import UserProfile from "./components/UserProfile";
 import store from "./redux/store"; // Import Redux store
 import { ProtectedRoute  } from "./utils/ProtectedRoute"; // Import Auth component(protected)
 import { PublicRoute } from "./utils/PublicRoute"; // Import Auth component(public)
 import "./App.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 function App() {
   return (
@@ -31,6 +34,7 @@ function App() {
               <Route path="/" exact element={<List />} />
               <Route path={LIST} element={<List />} />
               <Route path={FORM} element={<Form />} />
+              <Route path={PROFILE} element={<UserProfile />} />
             </Route>
             
             {/* Always accessible routes */}

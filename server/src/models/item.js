@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const bookSchema = new mongoose.Schema({
+const itemSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -25,9 +25,9 @@ const bookSchema = new mongoose.Schema({
     },
 },
 {
-    tableName: 'book',
+    tableName: 'item',
     timestamps: { createdAt: true, updatedAt: true }
 });
 
-const book = mongoose.model('book', bookSchema);
-module.exports = book;
+const item = mongoose.model('item', itemSchema);
+module.exports = item;

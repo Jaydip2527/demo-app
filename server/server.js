@@ -6,7 +6,7 @@ const app = express();
 
 const { errorHandler } = require("./src/middleware");
 const userRoutes = require("./src/routes/user");
-const bookRoutes = require("./src/routes/book");
+const itemRoutes = require("./src/routes/item");
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -25,7 +25,7 @@ mongoose
 
 // Import Routers
 app.use("/user", userRoutes);
-app.use("/items", bookRoutes);
+app.use("/items", itemRoutes);
 
 // For testing only
 // app.use("/", (req, res) => {

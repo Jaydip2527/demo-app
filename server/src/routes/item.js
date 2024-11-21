@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { auth } = require("../middleware");
 const multer = require("multer");
 const path = require("path");
-const bookModel = require('../models/book');
+const itemModel = require('../models/item');
 const fs = require("fs");
 
 
@@ -18,8 +18,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Import Models
-const bookService = require("../controllers/book");
-const book = new bookService();
+const itemService = require("../controllers/item");
+const item = new itemService();
 
 const unlink = (filePath) => {
     return new Promise((resolve, reject) => {
@@ -34,8 +34,8 @@ const unlink = (filePath) => {
 
 router.get("/get", auth, async (req, res, next) => {
     try {
-        const result = await book.getAllBooks();
-        res.status(200).send({ data: result, message: "Books fetched successfully", success: true });
+        const result = await item.getAllItems();
+        res.status(200).send({ data: result, message: "Items fetched successfully", success: true });
     } catch (err) {
         console.log(err);
         next({ data: [], message: err, success: false });
@@ -45,11 +45,11 @@ router.get("/get", auth, async (req, res, next) => {
 router.post("/add", upload.single("image"), async (req, res, next) => {
     try {
         const { filename } = req.file;
-        const bookData = req.body;
+        const itemData = req.body;
         // const baseUrl = req.protocol + "://" + req.get("host");
-        bookData.image = `uploads/${filename}`;
-        const result = await book.storeBookData(bookData);
-        res.status(201).send({ data: result, message: "Book created successfully", success: true });
+        itemData.image = `uploads/${filename}`;
+        const result = await item.storeItemData(itemData);
+        res.status(201).send({ data: result, message: "Item created successfully", success: true });
     } catch (err) {
         console.log(err);
         next({ data: [], message: err, success: false });
@@ -60,7 +60,7 @@ router.put("/update/:id", upload.single("image"), async (req, res, next) => {
     try {
         const { id } = req.params;
         const updatedData = req.body;
-        const oldImage = await bookModel.findById(id, { image: 1 });
+        const oldImage = await itemModel.findById(id, { image: 1 });
         if (req.file) {
             if (oldImage.image) {
                 const oldImagePath = oldImage.image.split("/").pop();
@@ -74,8 +74,8 @@ router.put("/update/:id", upload.single("image"), async (req, res, next) => {
         } else if (oldImage.image) {
             updatedData.image = oldImage.image;
         }
-        const result = await book.updateBook(id, updatedData);
-        res.status(200).send({ data: result, message: "Book updated successfully", success: true });
+        const result = await item.updateItem(id, updatedData);
+        res.status(200).send({ data: result, message: "Item updated successfully", success: true });
     } catch (err) {
         console.log(err);
         next({ data: [], message: err, success: false });
@@ -86,8 +86,8 @@ router.put("/update/:id", upload.single("image"), async (req, res, next) => {
 router.delete("/delete/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const result = await book.deleteBook(id);
-        res.status(200).send({ data: result, message: "Book deleted successfully", success: true });
+        const result = await item.deleteItem(id);
+        res.status(200).send({ data: result, message: "Item deleted successfully", success: true });
     } catch (err) {
         console.log(err);
         next({ data: [], message: err, success: false });

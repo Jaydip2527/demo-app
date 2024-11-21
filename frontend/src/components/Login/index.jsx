@@ -19,6 +19,7 @@ const Login = () => {
   } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const checkRememberMe = localStorage.getItem("rememberMe");
@@ -29,12 +30,11 @@ const Login = () => {
       setvalue("rememberMe", data.rememberMe);
     }
   }, [setvalue]);
-  
+
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await dispatch(loginUser(data, navigate, rememberMe));
-      reset();
+      await dispatch(loginUser(data, navigate, rememberMe, reset));
     } catch (error) {
       console.log("error ::", error);
       toast(error.message, "error");
@@ -93,31 +93,45 @@ const Login = () => {
 
               <div className="form-group mb-3">
                 <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className={`form-control ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  {...register("password", {
-                    required: "Password is required.",
-                    pattern: {
-                      value: passwordRegx,
-                      message:
-                        "Password must have one letter, one number, and one special character.",
-                    },
-                    maxLength: {
-                      value: 12,
-                      message: "Password should be at most 12 characters.",
-                    },
-                    minLength: {
-                      value: 6,
-                      message: "Password should be at least 6 characters.",
-                    },
-                  })}
-                />
-                <div className="invalid-feedback">
-                  {errors.password?.message}
+                <div className="input-group">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    className={`form-control ${
+                      errors.password ? "is-invalid" : ""
+                    }`}
+                    {...register("password", {
+                      required: "Password is required.",
+                      pattern: {
+                        value: passwordRegx,
+                        message:
+                          "Password must have one letter, one number, and one special character.",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "Password should be at most 12 characters.",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Password should be at least 6 characters.",
+                      },
+                    })}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    style={{ border: "1px solid #ced4da" }}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    <i
+                      className={`bi ${
+                        showPassword ? "bi-eye-slash" : "bi-eye"
+                      }`}
+                    ></i>
+                  </button>
+                  <div className="invalid-feedback">
+                    {errors.password?.message}
+                  </div>
                 </div>
               </div>
 
@@ -160,4 +174,3 @@ const Login = () => {
 };
 
 export default Login;
-

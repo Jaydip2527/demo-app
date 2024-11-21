@@ -38,6 +38,12 @@ class userService {
     return user?._doc;
   }
 
+  async getSingleUser(email){
+    const users = await userModel.findOne({ email }, { __v: 0 });
+    console.log("users", users);
+    return users;
+  }
+
   async login(data) {
     if (!data.password) return { message: "Password is missing", success: false };
     const userData = await this.getUserByUsername(data.username);
